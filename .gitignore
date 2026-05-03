@@ -1,0 +1,32 @@
+# Virtual environments
+venv/
+venv_*/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Secrets - NEVER commit these
+config/api_keys.json
+
+# Personal memory - private
+memory/long_term.json
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Temp
+/tmp/
+*.tmp
