@@ -1219,6 +1219,37 @@ class BootSequence(QWidget):
 
 
 class MainWindow(QMainWindow):
+
+    # ===== FIXED JARVIS MODE SWITCH =====
+    def toggle_ai_mode(self):
+        if not hasattr(self, '_offline_mode'):
+            self._offline_mode = False
+    
+        self._offline_mode = not self._offline_mode
+        mode = 'OFFLINE' if self._offline_mode else 'ONLINE'
+    
+        if hasattr(self, 'offline_btn'):
+            self.offline_btn.setText('🟣 OFFLINE MODE' if self._offline_mode else '🟢 ONLINE MODE')
+    
+        print('[JARVIS MODE]', mode)
+
+    def toggle_offline_ui(self):
+        return self.toggle_ai_mode()
+
+
+    def toggle_offline_ui(self):
+        try:
+            from main import toggle_offline_mode
+            state = toggle_offline_mode()
+
+            if state:
+                self.offline_btn.setText("🟣 OFFLINE MODE")
+            else:
+                self.offline_btn.setText("🟢 ONLINE MODE")
+
+        except Exception as e:
+            print("[OFFLINE TOGGLE ERROR]", e)
+
     _log_sig   = pyqtSignal(str)
     _state_sig = pyqtSignal(str)
 
@@ -1440,6 +1471,16 @@ class MainWindow(QMainWindow):
         hdr.setStyleSheet(f"color: {C.PRI}; background: transparent; "
                           f"border-bottom: 1px solid {C.BORDER}; padding-bottom: 4px;")
         lay.addWidget(hdr)
+
+        # === JARVIS MODE SWITCH ===
+        self.offline_btn = QPushButton("🟢 ONLINE / OFFLINE")
+        self.offline_btn.setStyleSheet(
+            "background:#cc0000;color:white;padding:6px;border-radius:6px;"
+        )
+        self.offline_btn.clicked.connect(self.toggle_ai_mode)
+        lay.addWidget(self.offline_btn)
+        # === END SWITCH ===
+
         lay.addSpacing(2)
 
         self._bar_cpu = MetricBar("CPU", C.PRI)
@@ -1758,3 +1799,16 @@ class JarvisUI:
     def stop_speaking(self):
         if not self.muted:
             self.set_state("LISTENING")
+
+    def toggle_ai_mode(self):
+        try:
+            from main import ai_manager
+            mode = ai_manager.toggle()
+
+            if hasattr(self, "offline_btn"):
+                self.offline_btn.setText(f"MODE: {mode.upper()}")
+
+            print("[JARVIS MODE]", mode)
+
+        except Exception as e:
+            print("[UI ERROR]", e)

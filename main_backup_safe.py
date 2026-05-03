@@ -1,5 +1,45 @@
+print('[BOOT] starting Jarvis core...')
+from core.router import route_ai, set_mode, get_mode
 
 import requests
+
+
+# ===== GLOBAL JARVIS MODE SYSTEM =====
+AI_MODE = "online"
+
+def toggle_offline_mode():
+    global AI_MODE
+    AI_MODE = "offline" if AI_MODE == "online" else "online"
+    print("[MAIN] AI_MODE =", AI_MODE)
+    return AI_MODE
+
+
+def get_ai_mode():
+    return AI_MODE
+
+
+def route_ai(prompt, gemini_fn=None):
+    # OFFLINE MODE → Ollama
+    if AI_MODE == "offline":
+        try:
+            import requests
+            r = requests.post(
+                "http://localhost:11434/api/generate",
+                json={
+                    "model": "llama3",
+                    "prompt": prompt,
+                    "stream": False
+                }
+            )
+            return r.json().get("response", "")
+        except Exception as e:
+            return f"[OFFLINE ERROR] {e}"
+
+    # ONLINE MODE → Gemini fallback
+    if gemini_fn:
+        return gemini_fn(prompt)
+
+    return "No AI backend connected."
 
 OFFLINE_MODE = False
 
@@ -114,35 +154,81 @@ except (ImportError, OSError) as e:
     print(f"[WARNING] sounddevice not available: {e}. Audio features disabled.")
     SOUNDDEVICE_AVAILABLE = False
     sd = None
-from google import genai
+from ai_backend import ask
 from google.genai import types
 from ui import JarvisUI
 from memory.memory_manager import (
     load_memory, update_memory, format_memory_for_prompt,
 )
 
+# lazy import moved to runtime
+# delayed import
 from actions.file_processor import file_processor
+# lazy import moved to runtime
+# delayed import
 from actions.flight_finder     import flight_finder
+# lazy import moved to runtime
+# delayed import
 from actions.open_app          import open_app
+# lazy import moved to runtime
+# delayed import
 from actions.weather_report    import weather_action
+# lazy import moved to runtime
+# delayed import
 from actions.send_message      import send_message
+# lazy import moved to runtime
+# delayed import
 from actions.reminder          import reminder
+# lazy import moved to runtime
+# delayed import
 from actions.computer_settings import computer_settings
+# lazy import moved to runtime
+# delayed import
 from actions.screen_processor  import screen_process
+# lazy import moved to runtime
+# delayed import
 from actions.youtube_video     import youtube_video
+# lazy import moved to runtime
+# delayed import
 from actions.desktop           import desktop_control
+# lazy import moved to runtime
+# delayed import
 from actions.browser_control   import browser_control
+# lazy import moved to runtime
+# delayed import
 from actions.file_controller   import file_controller
+# lazy import moved to runtime
+# delayed import
 from actions.code_helper       import code_helper
+# lazy import moved to runtime
+# delayed import
 from actions.dev_agent         import dev_agent
+# lazy import moved to runtime
+# delayed import
 from actions.web_search        import web_search as web_search_action
+# lazy import moved to runtime
+# delayed import
 from actions.computer_control  import computer_control
+# lazy import moved to runtime
+# delayed import
 from actions.game_updater      import game_updater
+# lazy import moved to runtime
+# delayed import
 from actions.file_analyzer     import file_analyzer
+# lazy import moved to runtime
+# delayed import
 from actions.network_monitor   import network_monitor
+# lazy import moved to runtime
+# delayed import
 from actions.music_controller  import music_controller
+# lazy import moved to runtime
+# delayed import
 from actions.daily_briefing    import morning_briefing
+# lazy import moved to runtime
+# delayed import
 from actions.security_monitor  import security_monitor
+# lazy import moved to runtime
+# delayed import
 from actions.weekly_report     import generate_weekly_report
 try:
     from core.notifier import notify_jarvis_online, notify_jarvis_offline
@@ -1040,3 +1126,40 @@ def smart_ai_router(prompt, gemini_func=None):
         return ask_ollama(prompt)
 
     return ask_ollama(prompt)
+
+
+
+# === OFFLINE ROUTER PATCH ===
+def route_jarvis_ai(user_text, online_fn):
+    if OFFLINE_MODE:
+        return ask_ollama(user_text)
+    else:
+        return online_fn(user_text)
+
+
+
+class AIManager:
+    def __init__(self):
+        self.mode = "online"
+
+    def toggle(self):
+        self.mode = "offline" if self.mode == "online" else "online"
+        return self.mode
+
+    def chat(self, prompt):
+        if self.mode == "offline":
+            import requests
+            r = requests.post("http://localhost:11434/api/generate", json={
+                "model": "llama3",
+                "prompt": prompt,
+                "stream": False
+            })
+            return r.json()["response"]
+        else:
+            return None  # Gemini handled elsewhere
+
+
+STARTUP_READY = True
+
+def boot_complete():
+    return STARTUP_READY

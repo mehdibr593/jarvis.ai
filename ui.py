@@ -1305,21 +1305,21 @@ class MainWindow(QMainWindow):
 
         self._clock_tmr = QTimer(self)
         self._clock_tmr.timeout.connect(self._tick_clock)
-        self._clock_tmr.start(1000)
+        # clock timer disabled
         self._tick_clock()
 
         # Metrik güncelleme timer'ı
         self._metric_tmr = QTimer(self)
         self._metric_tmr.timeout.connect(self._update_metrics)
-        self._metric_tmr.start(2000)
-        self._update_metrics()
+        pass
+        QTimer.singleShot(1000, self._update_metrics)
 
         self._log_sig.connect(self._log.append_log)
         self._state_sig.connect(self._apply_state)
 
         self._overlay: SetupOverlay | None = None
-        self._ready = self._check_config()
-        if not self._ready:
+        self._ready = True
+        if False:
             self._show_setup()
 
         sc_mute = QShortcut(QKeySequence("F4"), self)
