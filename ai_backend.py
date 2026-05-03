@@ -38,3 +38,17 @@ def ask(prompt: str, online_fn=None):
         return online_fn(prompt)
 
     return "No online backend connected."
+
+
+# SAFE OLLAMA FALLBACK
+def ask(prompt):
+    import requests
+    try:
+        r = requests.post(
+            "http://localhost:11434/api/generate",
+            json={"model": "llama3", "prompt": prompt, "stream": False},
+            timeout=60
+        )
+        return r.json().get("response", "")
+    except Exception:
+        return "Offline AI not available (Ollama not running)"
