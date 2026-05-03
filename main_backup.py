@@ -493,7 +493,7 @@ TOOL_DECLARATIONS = [
         "description": (
             "Shuts down the assistant completely. "
             "Call this when the user expresses intent to end the conversation, "
-            "close the assistant, say goodbye, or stop Jarvis. "
+            "close the assistant, say goodbye, or stop Mehdi AI Assistant. "
             "The user can say this in ANY language."
         ),
         "parameters": {
@@ -599,7 +599,7 @@ TOOL_DECLARATIONS = [
     },
 ]
 
-class JarvisLive:
+class Mehdi AI AssistantLive:
 
     def __init__(self, ui: JarvisUI):
         self.ui             = ui
@@ -892,7 +892,7 @@ class JarvisLive:
 
                             full_out = " ".join(out_buf).strip()
                             if full_out:
-                                self.ui.write_log(f"Jarvis: {full_out}")
+                                self.ui.write_log(f"Mehdi AI Assistant: {full_out}")
                             out_buf = []
 
                     if response.tool_call:
@@ -999,7 +999,7 @@ def main():
 
     def runner():
         ui.wait_for_api_key()
-        jarvis = JarvisLive(ui)
+        jarvis = Mehdi AI AssistantLive(ui)
         try:
             asyncio.run(jarvis.run())
         except KeyboardInterrupt:

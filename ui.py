@@ -871,7 +871,7 @@ class FileDropZone(QWidget):
 
     def _browse(self):
         path, _ = QFileDialog.getOpenFileName(
-            self, "Select a file for JARVIS", str(Path.home()),
+            self, "Select a file for MEHDI AI", str(Path.home()),
             "All Files (*.*);;"
             "Images (*.jpg *.jpeg *.png *.gif *.webp *.bmp *.svg);;"
             "Documents (*.pdf *.docx *.txt *.md *.pptx);;"
@@ -1220,7 +1220,7 @@ class BootSequence(QWidget):
 
 class MainWindow(QMainWindow):
 
-    # ===== FIXED JARVIS MODE SWITCH =====
+    # ===== FIXED MEHDI AI MODE SWITCH =====
     def toggle_ai_mode(self):
         if not hasattr(self, '_offline_mode'):
             self._offline_mode = False
@@ -1231,7 +1231,7 @@ class MainWindow(QMainWindow):
         if hasattr(self, 'offline_btn'):
             self.offline_btn.setText('🟣 OFFLINE MODE' if self._offline_mode else '🟢 ONLINE MODE')
     
-        print('[JARVIS MODE]', mode)
+        print('[MEHDI AI MODE]', mode)
 
     def toggle_offline_ui(self):
         return self.toggle_ai_mode()
@@ -1472,7 +1472,7 @@ class MainWindow(QMainWindow):
                           f"border-bottom: 1px solid {C.BORDER}; padding-bottom: 4px;")
         lay.addWidget(hdr)
 
-        # === JARVIS MODE SWITCH ===
+        # === MEHDI AI MODE SWITCH ===
         self.offline_btn = QPushButton("🟢 ONLINE / OFFLINE")
         self.offline_btn.setStyleSheet(
             "background:#cc0000;color:white;padding:6px;border-radius:6px;"
@@ -1658,7 +1658,7 @@ class MainWindow(QMainWindow):
         cat  = _file_category(p)
         icon, _ = _FILE_ICONS.get(cat, _FILE_ICONS["unknown"])
         size = _fmt_size(p.stat().st_size)
-        self._file_hint.setText(f"{icon}  {p.name}  ·  {size}  ·  Tell JARVIS what to do with it")
+        self._file_hint.setText(f"{icon}  {p.name}  ·  {size}  ·  Tell MEHDI AI what to do with it")
         self._log.append_log(f"FILE: {p.name} ({size}) loaded")
         if self.on_text_command:
             msg = (
@@ -1743,7 +1743,7 @@ class MainWindow(QMainWindow):
             self._overlay.hide()
             self._overlay = None
         self._apply_state("LISTENING")
-        self._log.append_log(f"SYS: Initialised. OS={os_name.upper()}. JARVIS online.")
+        self._log.append_log(f"SYS: Initialised. OS={os_name.upper()}. MEHDI AI online.")
 
 class _RootShim:
     def __init__(self, app: QApplication):
@@ -1808,7 +1808,7 @@ class JarvisUI:
             if hasattr(self, "offline_btn"):
                 self.offline_btn.setText(f"MODE: {mode.upper()}")
 
-            print("[JARVIS MODE]", mode)
+            print("[MEHDI AI MODE]", mode)
 
         except Exception as e:
             print("[UI ERROR]", e)
