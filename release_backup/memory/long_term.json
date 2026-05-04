@@ -1,0 +1,69 @@
+{
+  "identity": {
+    "creator": {
+      "value": "User",
+      "updated": "2026-05-03"
+    },
+    "name": {
+      "value": "Mehdi Barchichou",
+      "updated": "2026-05-03"
+    },
+    "title": {
+      "value": "Master",
+      "updated": "2026-05-03"
+    },
+    "os": {
+      "value": "Fedora Linux 44",
+      "updated": "2026-05-03"
+    },
+    "location": {
+      "value": "Rabat, Morocco",
+      "updated": "2026-05-03"
+    }
+  },
+  "preferences": {
+    "address_as": {
+      "value": "Master Mehdi",
+      "updated": "2026-05-03"
+    },
+    "language": {
+      "value": "English, French, Arabic",
+      "updated": "2026-05-03"
+    },
+    "address": {
+      "value": "Master Mehdi",
+      "updated": "2026-05-03"
+    },
+    "theme": {
+      "value": "Iron Man JARVIS cyberpunk",
+      "updated": "2026-05-03"
+    },
+    "ai_model": {
+      "value": "Gemini 2.5 Flash",
+      "updated": "2026-05-03"
+    }
+  },
+  "projects": {
+    "jarvis": {
+      "value": "Custom J.A.R.V.I.S AI assistant on Fedora",
+      "updated": "2026-05-03"
+    }
+  },
+  "relationships": {},
+  "wishes": {},
+  "notes": {
+    "full_laptop_data_access": {
+      "value": "User granted full access to all laptop data.",
+      "updated": "2026-05-03"
+    },
+    "jarvis_version": {
+      "value": "J.A.R.V.I.S Enhanced by Mehdi Barchichou",
+      "updated": "2026-05-03"
+    },
+    "system": {
+      "value": "J.A.R.V.I.S Enhanced Edition by Mehdi Barchichou",
+      "updated": "2026-05-03"
+    }
+  },
+  "patterns": {}
+}
