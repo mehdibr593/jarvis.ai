@@ -5,3 +5,4 @@ __pycache__/
 logs/
 config/api_keys.json
 .env
+.env
